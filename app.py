@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from gpt_handler import GPTHandler
+from flask import send_file
 
 app = Flask(__name__, template_folder="templates")
 CORS(app)
