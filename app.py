@@ -2,16 +2,18 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from gpt_handler import GPTHandler
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='public')
 CORS(app)
 
 gpt = GPTHandler()
 chat_history = []
 
+# Serve the chat UI directly at /
 @app.route("/")
 def home():
-    return {"message": "🚀 Startup AI Platform API is running!"}
+    return app.send_static_file("chat.html")
 
+# Chatbot API
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
     global chat_history
