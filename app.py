@@ -10,10 +10,7 @@ chat_history = []
 
 @app.route("/")
 def home():
-    try:
-        return send_file("chat.html")
-    except Exception as e:
-        return f"Error loading UI: {str(e)}"
+    return send_file("public/chat.html")
 
 @app.route("/chat.html")
 def serve_html():
