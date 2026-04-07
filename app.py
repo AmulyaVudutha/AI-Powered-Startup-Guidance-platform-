@@ -1,19 +1,25 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from gpt_handler import GPTHandler
-from flask import send_file
+import os
 
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__)
 CORS(app)
 
 gpt = GPTHandler()
 
-# ⚠️ Note: Won’t persist on Vercel (serverless)
+# ⚠️ Note: Not persistent in Vercel (serverless)
 chat_history = []
 
+# ✅ Serve UI directly
 @app.route("/")
 def home():
-    return send_file("chat.html")
+    return send_file(os.path.join(os.getcwd(), "chat.html"))
+
+# Optional route (same UI)
+@app.route("/ui")
+def ui():
+    return send_file(os.path.join(os.getcwd(), "chat.html"))
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
