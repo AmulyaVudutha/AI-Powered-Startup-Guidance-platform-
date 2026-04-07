@@ -2,12 +2,12 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from gpt_handler import GPTHandler
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 CORS(app)
 
 gpt = GPTHandler()
 
-# 🔹 Global chat memory
+# ⚠️ Note: Won’t persist on Vercel (serverless)
 chat_history = []
 
 @app.route("/")
@@ -46,8 +46,5 @@ def chatbot():
     except Exception as e:
         return jsonify({"response": f"Server error: {str(e)}"})
 
-
-# ✅ IMPORTANT FOR VERCEL
-# DO NOT use debug=True and keep it clean
-if __name__ == "__main__":
-    app.run()
+# Required for Vercel
+app = app
