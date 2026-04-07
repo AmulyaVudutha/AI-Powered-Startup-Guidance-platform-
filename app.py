@@ -8,7 +8,7 @@ CORS(app)
 gpt = GPTHandler()
 chat_history = []
 
-# Serve the chat UI directly at /
+# Direct UI load
 @app.route("/")
 def home():
     return app.send_static_file("chat.html")
