@@ -12,11 +12,7 @@ chat_history = []
 
 @app.route("/")
 def home():
-    return "🚀 Startup AI Platform API is running!"
-
-@app.route("/ui")
-def ui():
-    return render_template("chat.html")
+    return send_file("chat.html")
 
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
