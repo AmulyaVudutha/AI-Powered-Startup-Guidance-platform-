@@ -19,7 +19,7 @@
 <body>
     <div class="chat-container">
         <div class="chat-messages" id="messages">
-            <div class="message bot">Hi 👋 I’m your Startup AI assistant. Ask me anything about startups!</div>
+            <div class="message bot">Hi 👋 I’m Startup AI — ask me anything about startups!</div>
         </div>
         <div class="chat-input">
             <input id="input" placeholder="Type your question..." onkeydown="if(event.key==='Enter'){send()}">
@@ -29,27 +29,24 @@
 
     <script>
         async function send() {
-            let input = document.getElementById("input");
-            let msg = input.value.trim();
-            if(!msg) return;
-            input.value = "";
-
+            let inputEl = document.getElementById("input");
+            let msg = inputEl.value.trim();
+            if (!msg) return;
+            inputEl.value = "";
             const messages = document.getElementById("messages");
             messages.innerHTML += `<div class="message user">${msg}</div>`;
-            messages.scrollTop = messages.scrollHeight;
-
             try {
-                let res = await fetch("/chatbot", {
+                let response = await fetch("/chatbot", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify({message: msg})
+                    body: JSON.stringify({ message: msg })
                 });
-                let data = await res.json();
+                let data = await response.json();
                 messages.innerHTML += `<div class="message bot">${data.response}</div>`;
-                messages.scrollTop = messages.scrollHeight;
-            } catch(e) {
-                messages.innerHTML += `<div class="message bot">Error: ${e.message}</div>`;
+            } catch (err) {
+                messages.innerHTML += `<div class="message bot">Error: ${err.message}</div>`;
             }
+            messages.scrollTop = messages.scrollHeight;
         }
     </script>
 </body>
