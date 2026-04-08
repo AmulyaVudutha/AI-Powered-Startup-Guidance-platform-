@@ -3,9 +3,11 @@ from flask_cors import CORS
 from gpt_handler import GPTHandler
 import os
 
+# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
+# Initialize GPTHandler
 gpt = GPTHandler()
 chat_history = []
 
@@ -35,5 +37,7 @@ def chatbot():
     except Exception as e:
         return jsonify({"response": f"Server error: {str(e)}"})
 
-# Required for Vercel serverless
-app = app
+# Entry point for Render
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Render sets the PORT
+    app.run(host="0.0.0.0", port=port)
